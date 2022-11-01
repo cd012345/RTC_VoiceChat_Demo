@@ -1,6 +1,6 @@
 USE `mysql`;
 -- set root's password to bytedance
-ALTER USER 'root'@'localhost' IDENTIFIED WITH caching_sha2_password BY 'bytedance';
+ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'bytedance';
 
 CREATE DATABASE IF NOT EXISTS `rtc_demo_db`;
 
@@ -52,7 +52,7 @@ CREATE TABLE `svc_user`
 ) ENGINE = InnoDB
   AUTO_INCREMENT = 581
   DEFAULT CHARSET = utf8
-  ROW_FORMAT = DYNAMIC COMMENT ='语聊房用户信息'
+  ROW_FORMAT = DYNAMIC COMMENT ='语聊房用户信息';
 
 
 DROP TABLE IF EXISTS `user_profile`;

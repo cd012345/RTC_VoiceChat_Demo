@@ -2,7 +2,7 @@ version: '3'
 services:
   mysql_server:
     container_name: mysql_server
-    build: ../../VolcEngineRTC_Solution_Demo/VoiceChat/Server/mysql
+    build: Env/Mysql
     restart: always
       
   redis_server:
@@ -13,7 +13,7 @@ services:
 
   rtc_demo_server:
     container_name: rtc_demo_server
-    build: ../../VolcEngineRTC_Solution_Demo/VoiceChat/Server/rtc_demo_server
+    build: ./
     depends_on:
       - mysql_server
       - redis_server

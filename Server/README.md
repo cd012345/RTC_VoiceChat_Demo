@@ -26,7 +26,7 @@
 
 #### 业务服务
 
-配置文件路径：./server/conf/conf.yaml
+配置文件路径：./VolcEngineRTC_Solution_Demo/conf/conf.yaml
 
 ```YAML
 mysql_dsn: "root:bytedance@tcp(mysql_server:3306)/rtc_demo_db?parseTime=true&loc=Local"
@@ -145,7 +145,7 @@ rtc_demo.sql中包含了建库、建表、配置密码等操作，如果要修�
 ```SQL
 USE `mysql`;
 -- set root's password to bytedance
-ALTER USER 'root'@'localhost' IDENTIFIED WITH caching_sha2_password BY 'bytedance';
+ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'bytedance';
 ```
 
 将 sql 文件导入 mysql 中
@@ -194,11 +194,11 @@ version: '3'
 services:
   mysql_server:
     container_name: mysql_server
-    build: ./mysql
+    build: Env/mysql
     volumes:
       - "./app/mysql:/var/lib/mysql"
     restart: always
-      
+
   redis_server:
     container_name: redis_server
     image: "redis:latest"
@@ -216,7 +216,7 @@ services:
     ports:
       - "18080:18080"
     restart: always
-  
+
 ```
 
 说明：

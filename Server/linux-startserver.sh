@@ -4,6 +4,5 @@ go env -w GOPROXY=https://goproxy.cn,direct
 go mod init
 go mod tidy
 
-sh build.sh
-cd output
-sh bootstrap.sh
+sh VolcEngineRTC_Solution_Demo/build.sh
+sh VolcEngineRTC_Solution_Demo/output/bootstrap.sh
