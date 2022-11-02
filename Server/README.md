@@ -83,15 +83,27 @@ volc_sk: your_sk # openapi鉴权使用
 
 ### 准备工作
 
-#### 安装 golang
+#### 安装前置软件
 
-开始之前请获取 root 权限或自行在指令前添加 sudo。
+> 开始之前请获取 root 权限或自行在指令前添加 sudo。
 
 ```Shell
-#更新 apt 源
-apt update
-#安装 go   
-apt install golang
+#安装前置软件
+apt update && apt install wget git software-properties-common vim -y
+```
+
+
+
+
+
+#### 安装 golang
+
+> 开始之前请获取 root 权限或自行在指令前添加 sudo。
+>
+
+```Shell
+#安装 go
+wget https://go.dev/dl/go1.19.3.linux-amd64.tar.gz && rm -rf /usr/local/go && tar -C /usr/local -xzf go1.19.3.linux-amd64.tar.gz
 
 #检查 go 是否成功安装
 go version
@@ -101,13 +113,27 @@ go version
 
 #### 安装 mysql
 
-开始之前请获取 root 权限或自行在指令前添加 sudo。
+> 开始之前请获取 root 权限或自行在指令前添加 sudo。
+>
 
 ```Shell
+#下载 mysql-apt-config
+wget https://dev.mysql.com/get/mysql-apt-config_0.8.24-1_all.deb
+
+#选择 apt 源
+#选择 MySQL Server & Cluster 选项，选定 mysql-5.7 并确认 ok。
+dpkg -i mysql-apt-config_0.8.24-1_all.deb
+
 #更新 apt 源
+#如果出现 signature couldnt be verified 请运行以下语句，并重新更新 apt 源
+#apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 467B942D3A79BD29
 apt update
-#安装 mysql     
-apt install mysql-server
+
+#检查 msyql 可安装版本
+apt-cache policy mysql-server
+
+#安装 mysql
+apt install mysql-server=5.7* -y
 
 #启动 mysql 服务
 service msyql start
@@ -117,15 +143,18 @@ service msyql start
 
 #### 安装 redis
 
-开始之前请获取 root 权限或自行在指令前添加 sudo。
+> 开始之前请获取 root 权限或自行在指令前添加 sudo。
+>
 
 ```Shell
 #更新 apt 源
 apt update
+
 #安装 redis
 apt install redis
 
 #启动 redis-server，并开启后台运行
+#（可选，如提示端口已占用说明已自动运行）
 #开启 redis-server 后通过 Ctrl + C 返回 Shell
 redis-server &
 ```
@@ -140,29 +169,31 @@ redis-server &
 
 rtc_demo.sql中包含了建库、建表、配置密码等操作，如果要修改mysql密码，需同步修改业务服务配置中的mysql_dsn机rtc_demo.sql文件中的如下语句。
 
-配置文件目录：./mysql/rtc_demo.sql
+配置文件目录：./Mysql/rtc_demo.sql
 
 ```SQL
 USE `mysql`;
 -- set root's password to bytedance
+GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY 'bytedance';
 ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'bytedance';
+FlUSH PRIVILEGES;
 ```
 
 将 sql 文件导入 mysql 中
 
 ```Shell
 #当前目录在 Server 下
-mysql < ./mysql/rtc_demo.sql
+mysql < ./Env/Mysql/rtc_demo.sql
 ```
 
 
 
 ### 启动
 
-进入业务目录，即有 startserver.sh 的目录下，运行如下命令
+在 Server 目录下，运行如下命令
 
 ```Shell
-sh startserver.sh
+sh linux-startserver.sh
 ```
 
 
@@ -194,19 +225,18 @@ version: '3'
 services:
   mysql_server:
     container_name: mysql_server
-    build: Env/mysql
-    volumes:
-      - "./app/mysql:/var/lib/mysql"
+    build: Env/Mysql
     restart: always
-
+      
   redis_server:
     container_name: redis_server
     image: "redis:latest"
     restart: always
 
+
   rtc_demo_server:
     container_name: rtc_demo_server
-    build: ./rtc_demo_server
+    build: ./
     depends_on:
       - mysql_server
       - redis_server
@@ -216,7 +246,6 @@ services:
     ports:
       - "18080:18080"
     restart: always
-
 ```
 
 说明：
@@ -231,12 +260,14 @@ services:
 
 rtc_demo.sql中包含了建库、建表、配置密码等操作，如果要修改mysql密码，需同步修改业务服务配置中的mysql_dsn机rtc_demo.sql文件中的如下语句。
 
-配置文件目录：./mysql/rtc_demo.sql
+配置文件目录：./Env/Mysql/rtc_demo.sql
 
 ```SQL
 USE `mysql`;
 -- set root's password to bytedance
-ALTER USER 'root'@'localhost' IDENTIFIED WITH caching_sha2_password BY 'bytedance';
+GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY 'bytedance';
+ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'bytedance';
+FlUSH PRIVILEGES;
 ```
 
 
