@@ -15,6 +15,8 @@
  */
 package svc_service
 
+import . "github.com/volcengine/VolcEngineRTC_Solution_Demo/internal/pkg/inform"
+
 const (
 	OnAudienceJoinRoom  InformEvent = "svcOnAudienceJoinRoom"
 	OnAudienceLeaveRoom InformEvent = "svcOnAudienceLeaveRoom"

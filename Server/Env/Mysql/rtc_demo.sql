@@ -1,6 +1,7 @@
 USE `mysql`;
 -- set root's password to bytedance
-ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'bytedance';
+GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY 'bytedance';
+FlUSH PRIVILEGES;
 
 CREATE DATABASE IF NOT EXISTS `rtc_demo_db`;
 

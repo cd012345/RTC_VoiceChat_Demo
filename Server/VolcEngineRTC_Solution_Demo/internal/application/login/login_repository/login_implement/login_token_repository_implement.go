@@ -17,6 +17,7 @@ package login_implement
 
 import (
 	"context"
+	"github.com/go-redis/redis/v8"
 	"time"
 
 	"github.com/volcengine/VolcEngineRTC_Solution_Demo/internal/application/login/login_entity"

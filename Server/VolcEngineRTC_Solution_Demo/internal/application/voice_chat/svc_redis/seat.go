@@ -18,6 +18,7 @@ package svc_redis
 import (
 	"context"
 	"encoding/json"
+	"github.com/go-redis/redis/v8"
 	"strconv"
 
 	"github.com/volcengine/VolcEngineRTC_Solution_Demo/internal/application/voice_chat/svc_entity"

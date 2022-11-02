@@ -17,6 +17,7 @@ package general
 
 import (
 	"context"
+	"github.com/go-redis/redis/v8"
 
 	"github.com/volcengine/VolcEngineRTC_Solution_Demo/internal/pkg/redis_cli"
 )

@@ -4,7 +4,8 @@ go 1.16
 
 require (
 	github.com/gin-gonic/gin v1.7.7
-	github.com/go-redis/redis/v8 v8.11.4
+	github.com/go-redis/redis/v8 v8.11.5
+	github.com/google/go-cmp v0.5.6 // indirect
 	github.com/jinzhu/configor v1.2.1
 	github.com/json-iterator/go v1.1.11 // indirect
 	github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd // indirect
